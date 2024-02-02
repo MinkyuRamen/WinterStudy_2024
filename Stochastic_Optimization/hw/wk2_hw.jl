@@ -39,7 +39,7 @@ function adaptive_simulated_annealing_vallina(f, x;
     while true
         
         for i in 1:n
-            x1 = clamp.(x + basis(i,n)*rand(U)*v[i], -1e10, 1e10)  # x1 범위 제한
+            x1 = clamp.(x + basis(i,n)*rand(U)*v[i], -1, 1)  # x1 범위 제한
             y1 = f(x1)
             Δy = y1 - y
             if Δy ≤ 0 || rand() < exp(-Δy/t) # metropolis criterion
@@ -78,7 +78,7 @@ function adaptive_simulated_annealing_vallina(f, x;
 end
 
 function adaptive_simulated_annealing_boost(f, x;
-    v=fill(1e-5, length(x)), t=1, ϵ=1e-20, ns=20, nϵ=4, nt=max(100,5length(x)), c=fill(2,length(x)))
+    v=fill(1e-5, length(x)), t=1, ϵ=1e-20, ns=10^4, nϵ=4, nt=max(10^4,5length(x)), c=fill(2,length(x)))
     """
     f : objective function
     x : initial point  
@@ -103,7 +103,7 @@ function adaptive_simulated_annealing_boost(f, x;
     while true
         
         for i in 1:n
-            x1 = clamp.(x + basis(i,n)*rand(U)*v[i], -1e10, 1e10)  # x1 범위 제한
+            x1 = clamp.(x + basis(i,n)*rand(U)*v[i], -1, 1)  # x1 범위 제한
             y1 = f(x1)
             Δy = y1 - y
             if Δy ≤ 0 || rand() < exp(-Δy/t) # metropolis criterion
@@ -149,7 +149,7 @@ end
 
 f = ackley
 x = [1,1]
-t_init = 1
+t_init = 0.0001
 
 
 @time as1 = adaptive_simulated_annealing_vallina(f, x)#, t=t_init)

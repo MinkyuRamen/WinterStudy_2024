@@ -130,7 +130,7 @@ function adaptive_simulated_annealing_vallina(f, x;
     while true
         
         for i in 1:n
-            x1 = clamp.(x + basis(i,n)*rand(U)*v[i], -1e10, 1e10)  # x1 범위 제한
+            x1 = clamp.(x + basis(i,n)*rand(U)*v[i], -1, 1)  # x1 범위 제한
             y1 = f(x1)
             Δy = y1 - y
             if Δy ≤ 0 || rand() < exp(-Δy/t) # metropolis criterion
